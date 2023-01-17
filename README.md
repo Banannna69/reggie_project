@@ -4,7 +4,7 @@
 
 ### Bug 1
 
-![image-20230109195709898](reggie.assets/image-20230109195709898.png)
+![image-20230109195709898](README.assets/image-20230109195709898.png)
 
 菜品信息分页查询，无法展示菜品分类信息，需要将对象拷贝。这里无法解析符号。
 
@@ -20,7 +20,7 @@
 
 ### Bug 1
 
-![image-20230110201913893](reggie.assets/image-20230110201913893.png)
+![image-20230110201913893](README.assets/image-20230110201913893.png)
 
 在dto中的变量名与实体类中的变量名不一致，导致在调用`SetMealServiceImpl`时出现空指针异常。
 
@@ -28,7 +28,7 @@
 
 ### Bug 2
 
-![image-20230111131207606](reggie.assets/image-20230111131207606.png)
+![image-20230111131207606](README.assets/image-20230111131207606.png)
 
 错误：No primary or single unique constructor found for interface java.util.List(没有为[List接口](https://so.csdn.net/so/search?q=List接口&spm=1001.2101.3001.7020)找到主要的或唯一的构造函数)
 
@@ -36,17 +36,17 @@
 
 在这里忘记添加`@RequestParam `注解了
 
-![image-20230111131407812](reggie.assets/image-20230111131407812.png)
+![image-20230111131407812](README.assets/image-20230111131407812.png)
 
 
 
 ### 修改套餐功能
 
-![image-20230111171652468](reggie.assets/image-20230111171652468.png)
+![image-20230111171652468](README.assets/image-20230111171652468.png)
 
 首先根据id获取到对应的套餐信息
 
-![image-20230111171730916](reggie.assets/image-20230111171730916.png)
+![image-20230111171730916](README.assets/image-20230111171730916.png)
 
 在对套餐进行更新时，首先删除掉原有的套餐信息，然后重新添加新的套餐信息以及套餐对应的菜品信息
 
@@ -295,9 +295,9 @@ git config --list
 //获取git仓库，从远程仓库克隆(常用)
 ```
 
-![image-20230114154301885](reggie.assets/image-20230114154301885.png)
+![image-20230114154301885](README.assets/image-20230114154301885.png)
 
-![image-20230114161133481](reggie.assets/image-20230114161133481.png)
+![image-20230114161133481](README.assets/image-20230114161133481.png)
 
 
 
@@ -335,7 +335,7 @@ git pull origin master
 
 分支可以吧目前的工作从主线上分离开来，避免影响开发主线，同一个仓库可以有多个分支，各个分支相互独立，互不干扰。
 
-![image-20230114170707381](reggie.assets/image-20230114170707381.png)
+![image-20230114170707381](README.assets/image-20230114170707381.png)
 
 ```
 git branch //列出本地分支
@@ -345,7 +345,7 @@ git branch -a //列出本地分支和远程分支
 
 **Git 标签**
 
-![image-20230115102737263](reggie.assets/image-20230115102737263.png)
+![image-20230115102737263](README.assets/image-20230115102737263.png)
 
 
 
@@ -353,5 +353,28 @@ git branch -a //列出本地分支和远程分支
 
 **Tomcat 设置**
 
-![image-20230115122449154](reggie.assets/image-20230115122449154.png)
+![image-20230115122449154](README.assets/image-20230115122449154.png)
+
+
+
+
+
+## 代码优化
+
+### redis 缓存验证码
+
+![image-20230117134656115](README.assets/image-20230117134656115.png)
+
+```java
+//将生成的验证码缓存到Redis中，并设置有效期为5分钟
+redisTemplate.opsForValue().set(phone,code,5, TimeUnit.MINUTES);
+//从redis中取出验证码
+Object codeInSession = redisTemplate.opsForValue().get(phone);
+```
+
+### 缓存菜品数据
+
+![image-20230117141108888](README.assets/image-20230117141108888.png)
+
+
 
