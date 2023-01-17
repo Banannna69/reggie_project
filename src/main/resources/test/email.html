@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Send Email Test</title>
+  <script src="js/axios-0.18.0.js"></script>
+  <script src="js/vue.js"></script>
+  <script src="element-ui/lib/index.js"></script>
+  <link rel="stylesheet" href="element-ui/lib/theme-chalk/index.css">
+
+
+
+</head>
+<body>
+<div id="app">
+    <el-input placeholder=" 请输入邮箱" v-model="phone"  maxlength='20'/></el-input>
+    <div class="divSplit"></div>
+    <el-button type="primary" @click="getCode">发送验证码Get</el-button>
+    <el-button type="primary" @click="getCodePost">发送验证码Post</el-button>
+</div>
+
+
+
+</body>
+
+<script>
+new Vue({
+el: '#app',
+
+mounted(){},
+
+  data() {
+    return {
+      phone:""
+    }
+  },
+  methods: {
+    onSubmit() {
+      console.log('submit!');
+    },
+    getCode(){
+      var _this = this
+      console.log(this.phone)
+      axios({
+          'url': '/send/'+_this.phone,
+          'method': 'get',
+        })
+      },
+
+      getCodePost(){
+          var _this = this
+          console.log(this.phone)
+          axios({
+              'url': '/send',
+              'method': 'post',
+              'data':{phone:_this.phone}
+          })
+      }
+    },
+
+})
+
+</script>
+
+
+</html>
