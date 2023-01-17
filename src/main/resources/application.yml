@@ -15,13 +15,17 @@ spring:
     username:
     password:
     nickname: 瑞吉外卖
+  redis:
+    port: 6379
+    host: 192.168.31.138
+    database: 0
 mybatis-plus:
   configuration:
     #按照驼峰命名法进行映射
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 reggie:
-  path: /Users/null/Daily/java/reggit_project/src/main/resources/imgs/
+  path: /Users/null/Daily/java/reggie_project/src/main/resources/imgs/
 
 
 
