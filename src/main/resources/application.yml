@@ -12,8 +12,8 @@ spring:
         enabled: true
   mail:
     host: smtp.qq.com
-    username:
-    password:
+    username: admin
+    password: password
     nickname: 瑞吉外卖
 mybatis-plus:
   configuration:
@@ -21,7 +21,7 @@ mybatis-plus:
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 reggie:
-  path: /Users/null/Daily/java/reggit_project/src/main/resources/imgs/
+  path: /Users/null/Daily/java/reggie_project/src/main/resources/imgs/
 
 
 
