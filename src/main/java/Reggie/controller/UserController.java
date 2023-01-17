@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.api.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @Slf4j
@@ -27,6 +29,9 @@ public class UserController {
 
     @Autowired
     private SendMailService sendMailService;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
 
     /**
@@ -48,7 +53,10 @@ public class UserController {
             //发送验证码
             //sendMailService.sendMail(user.getPhone(),code);
             //将验证码保存到session
-            httpSession.setAttribute(phone,code);
+            //httpSession.setAttribute(phone,code);
+
+            //将生成的验证码缓存到Redis中，并设置有效期为5分钟
+            redisTemplate.opsForValue().set(phone,code,5, TimeUnit.MINUTES);
 
             return Result.success("验证码发送成功");
 
@@ -75,7 +83,10 @@ public class UserController {
         String code = map.get("code").toString();
 
         //从session中获取保存的验证码
-        Object codeInSession = session.getAttribute(phone);
+        //Object codeInSession = session.getAttribute(phone);
+
+        //从redis中取出验证码
+        Object codeInSession = redisTemplate.opsForValue().get(phone);
 
         //进行验证码的比对（页面提交的验证码和session中保存的验证码比对）
         if(codeInSession != null && codeInSession.equals(code)){
