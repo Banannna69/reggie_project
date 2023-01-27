@@ -378,5 +378,60 @@ Object codeInSession = redisTemplate.opsForValue().get(phone);
 
 
 
-### Spring cache
+### 使用 swagger 生成接口文档
 
+导入坐标
+```xml
+<dependency>
+      <groupId>com.github.xiaoymin</groupId>
+      <artifactId>knife4j-spring-boot-starter</artifactId>
+      <version>3.0.2</version>
+    </dependency>
+```
+
+在 WebMvcConfig添加相应的注解
+
+![image-20230127170234734](README.assets/image-20230127170234734.png)
+
+配置：
+
+```java
+ @Bean
+    public Docket createRestApi() {
+        //文档类型
+        return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(apiInfo())
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("Reggie.controller"))
+                .paths(PathSelectors.any())
+                .build();
+    }
+
+    private ApiInfo apiInfo() {
+        return new ApiInfoBuilder()
+                .title("瑞吉外卖")
+                .version("1.0")
+                .description("Reggie 接口文档")
+                .build();
+    }
+```
+
+在拦截器中配置过滤路径，并设置静态资源映射
+
+```java
+"/doc.html",
+"webjars/**",
+"/swagger-resources",
+"/v2/api-docs"
+```
+
+```java
+registry.addResourceHandler("doc.html").addResourceLocations("classpath:/META-INF/resources/");
+registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+```
+
+相关注解：
+
+![image-20230127174421474](README.assets/image-20230127174421474.png)
+
+搭配注解可以可以使内容更加完善
